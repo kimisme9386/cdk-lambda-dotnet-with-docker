@@ -1,11 +1,16 @@
+import { SynthUtils } from '@aws-cdk/assert';
 import '@aws-cdk/assert/jest';
 import { App } from '@aws-cdk/core';
-import { MyStack } from '../src/main';
+import { LambdaDotnet } from '../src/lambda-dotnet';
 
 test('Snapshot', () => {
-  const app = new App();
-  const stack = new MyStack(app, 'test');
+  const env = {
+    region: process.env.CDK_DEFAULT_REGION,
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+  };
 
-  expect(stack).not.toHaveResource('AWS::S3::Bucket');
-  expect(app.synth().getStackArtifact(stack.artifactId).template).toMatchSnapshot();
+  const app = new App();
+  const stack = new LambdaDotnet(app, 'test', { env });
+
+  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
 });

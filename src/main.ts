@@ -1,12 +1,5 @@
-import { App, Construct, Stack, StackProps } from '@aws-cdk/core';
-
-export class MyStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps = {}) {
-    super(scope, id, props);
-
-    // define resources here...
-  }
-}
+import { App } from '@aws-cdk/core';
+import { LambdaDotnet } from './lambda-dotnet';
 
 // for development, use account/region from cdk cli
 const devEnv = {
@@ -16,7 +9,6 @@ const devEnv = {
 
 const app = new App();
 
-new MyStack(app, 'my-stack-dev', { env: devEnv });
-// new MyStack(app, 'my-stack-prod', { env: prodEnv });
+new LambdaDotnet(app, 'LambdaDotnetDemo', { env: devEnv });
 
 app.synth();

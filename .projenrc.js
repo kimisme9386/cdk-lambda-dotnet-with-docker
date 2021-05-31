@@ -1,15 +1,24 @@
 const { AwsCdkTypeScriptApp } = require('projen');
 const project = new AwsCdkTypeScriptApp({
-  cdkVersion: '1.95.2',
+  cdkVersion: '1.105.0',
+  cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
   name: 'cdk-lambda-dotnet-with-docker',
-
-  // cdkDependencies: undefined,        /* Which AWS CDK modules (those that start with "@aws-cdk/") this app uses. */
-  // deps: [],                          /* Runtime dependencies of this module. */
-  // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],                       /* Build dependencies for this module. */
-  // packageName: undefined,            /* The "name" in package.json. */
-  // projectType: ProjectType.UNKNOWN,  /* Which type of project this is (library/app). */
-  // releaseWorkflow: undefined,        /* Define a GitHub workflow for releasing from "main" when new versions are bumped. */
+  repositoryUrl: 'git@github.com:kimisme9386/cdk-lambda-dotnet-with-docker.git',
+  cdkDependencies: ['@aws-cdk/core', '@aws-cdk/aws-lambda'],
+  releaseWorkflow: false,
 });
+
+const common_exclude = [
+  'cdk.out',
+  'cdk.context.json',
+  'images',
+  'yarn-error.log',
+  'dependabot.yml',
+  'DemoFunction/src/DemoFunction/obj',
+  'DemoFunction/src/DemoFunction/bin',
+];
+
+project.gitignore.exclude(...common_exclude);
+
 project.synth();
